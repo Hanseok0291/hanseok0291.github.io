@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <title>한국산업대전 2019</title>
+
+<!--    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">-->
+
+    <link rel="stylesheet" type="text/css" href="./css/normalize.css?v">
+    <link rel="stylesheet" type="text/css" href="./css/common.css?v=0709">
+    <link rel="stylesheet" type="text/css" href="./css/jquery.mCustomScrollbar.css">
+    <link rel="stylesheet" type="text/css" href="./css/slick.css"/>
+
+    <script type="text/javascript" src="./js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.scrollify.js"></script>
+    <script type="text/javascript" src="./js/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="./js/slick.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.mCustomScrollbar.min.js"></script>
+</head>
+<script type="text/javascript">
+// ios pinch zoom disable
+document.documentElement.addEventListener('touchstart', function (event) {
+    if (event.touches.length > 1) {
+    event.preventDefault();
+    }
+}, false);
+</script>
+<script>
+    // 동영상 스크립트
+    /**
+    * Youtube API 로드 */
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    /**
+        * onYouTubeIframeAPIReady 함수는 필수로 구현해야 한다.
+        * 플레이어 API에 대한 JavaScript 다운로드 완료 시 API가 이 함수 호출한다.
+        * 페이지 로드 시 표시할 플레이어 개체를 만들어야 한다.
+        */
+    var player;
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+               height: '315',            // <iframe> 태그 지정시 필요없음
+               width: '560',             // <iframe> 태그 지정시 필요없음
+               videoId: 'mcPZeMSiKTQ',   // <iframe> 태그 지정시 필요없음
+               playerVars: {             // <iframe> 태그 지정시 필요없음
+                   controls: '0',
+                   rel: '0',
+                   loop: '1'
+               },
+            events: {
+                'onReady': onReady,               // 플레이어 로드가 완료되고 API 호출을 받을 준비가 될 때마다 실행
+                'onStateChange': onPlayerStateChange    // 플레이어의 상태가 변경될 때마다 실행
+            }
+        });
+    }
+    function pauseVideo(){
+        try{
+        }catch(e){
+        }
+    }
+
+    var isPlaying = false;
+    function onReady(event) {
+        console.log('onReady 실행');
+        // 플레이어 자동실행 (주의: 모바일에서는 자동실행되지 않음)
+        $('#btnPlay').click(function(){
+            $(this).parents('.yotube_cover').addClass('on');
+            $(this).addClass('on');
+            $('.btn_wrap').addClass('on');
+            if ( isPlaying == true){
+            $(this).show();
+            $(this).parents('.yotube_cover').removeClass('on');
+            $('.btn_wrap').removeClass('on');
+            $(this).removeClass('on');
+            $('#player').get(0).contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}','*');
+            isPlaying = false;
+            } else {
+            $(this).addClass('on');
+            $('.btn_wrap').addClass('on');
+            $(this).parents('.yotube_cover').addClass('on');
+            $('#player').get(0).contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}','*');
+            isPlaying = true;
+            }
+        });
+    }
+    var playerState;
+    function onPlayerStateChange(event) {
+        playerState = event.data == YT.PlayerState.ENDED ? '종료됨' :
+                event.data == YT.PlayerState.PLAYING ? '재생 중' :
+                event.data == YT.PlayerState.PAUSED ? '일시중지 됨' :
+                event.data == YT.PlayerState.BUFFERING ? '버퍼링 중' :
+                event.data == YT.PlayerState.CUED ? '재생준비 완료됨' :
+                event.data == -1 ? '시작되지 않음' : '예외';
+
+        if (event.data === YT.PlayerState.ENDED) {
+            // player.stopVideo();
+            $('.btn_wrap').removeClass('on');
+            $('.btn_play').removeClass('on');
+            $('.yotube_cover').removeClass('on');
+            isPlaying = false;
+        }
+        console.log('onPlayerStateChange 실행: ' + playerState);
+    }
+
+var iscroll_idx = 0;
+$(function() {
+    var slider = $('.wrap1 .con');
+     var slider2 = $('.wrap2 .con');
+     var slider3 = $('.wrap3 .con');
+
+    slider.slick({
+        dots: true,
+        arrows: false,
+        fade: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        touchMove: false,
+        autoplay: false,
+        draggable: false,
+        pauseOnHover: false,
+        autoplaySpeed: 3000
+    });
+    slider.on('beforeChange', function(event, slick, currentSlide){
+       $('.wrap1').addClass('ani_fade');
+       $('.wrap1').removeClass('ani');
+    });
+    slider.on('afterChange', function(event, slick, currentSlide){
+       $('.wrap1').removeClass('ani_fade');
+       $('.wrap1').addClass('ani');
+    });
+    slider2.on('beforeChange', function(event, slick, currentSlide){
+       $('.wrap2').removeClass('ani');
+       $('.wrap2').addClass('ani_fade');
+       $('.wrap2').addClass('wrap2_hold');
+    });
+    slider2.on('afterChange', function(event, slick, currentSlide){
+       $('.wrap2').removeClass('ani_fade');
+       $('.wrap2').addClass('ani');
+    });
+    slider3.on('beforeChange', function(event, slick, currentSlide){
+       $('.wrap3').removeClass('ani');
+       $('.wrap3').addClass('ani_fade');
+       $('.wrap3').addClass('wrap3_hold');
+    });
+    slider3.on('afterChange', function(event, slick, currentSlide){
+       $('.wrap3').removeClass('ani_fade');
+       $('.wrap3').addClass('ani');
+    });
+     slider2.slick({
+         dots: false,
+         arrows: false,
+         fade: true,
+         slidesToShow: 1,
+         slidesToScroll: 1,
+         touchMove: false,
+         autoplay: false,
+         draggable: false,
+         pauseOnHover: false,
+         autoplaySpeed: 3000
+     });
+     slider3.slick({
+         dots: false,
+         arrows: false,
+         fade: true,
+         slidesToShow: 1,
+         slidesToScroll: 1,
+         touchMove: false,
+         autoplay: false,
+         draggable: false,
+         pauseOnHover: false,
+         autoplaySpeed: 3000
+     });
+    var scrollify = function() {
+
+        $.scrollify({
+        section : ".wrap",
+        easing: "easeOutExpo",
+        interstitialSection : ".footer_wrap",
+        scrollbars: false,
+        setHeights: false,
+    before:function(i,panels) {
+        current = i;
+        var ref = panels[i].attr("data-section-name");
+        $(".scroll_wrap.actived").removeClass("actived");
+        $("[data-section-name="+ref+"]").addClass("actived");
+        $("[data-section-name="+ref+"]").removeClass("ani_fade");
+        // $('".' + ref+'"').addClass("actived");
+        $(".top_top_pagination .active").removeClass("active");
+        $(".top_top_pagination").find("a[href=\"#" + ref + "\"]").addClass("active");
+
+        if(ref === "4"){
+            // 유튜브 재생
+            isPlaying = false;
+        } else {
+            // 유튜브 멈춤
+            if(isPlaying) player.pauseVideo();
+
+            isPlaying = false;
+            $('#btnPlay').parents('.yotube_cover').removeClass('on');
+            $('.btn_wrap').removeClass('on');
+            $('.btn_play').removeClass('on');
+        }
+
+        if(ref === "6"){
+        $('.scroll_control_a').fadeOut();
+        } else {
+        $('.scroll_control_a').fadeIn();
+        }
+    },
+    after:function(i,panels) {
+        current = i;
+        var ref = panels[i].attr("data-section-name");
+        var refBefore = ref - 1;
+        $(panels[i]).addClass("ani");
+        $("[data-section-name="+ref+"]").addClass("ani");
+
+        if(ref === "1") {
+            slider.slick('slickPlay');
+            slider2.slick('slickPause');
+            slider3.slick('slickPause');
+        }
+        if(ref === "2") {
+            slider.slick('slickPause');
+            slider2.slick('slickPlay');
+            slider3.slick('slickPause');
+            $("[data-section-name="+refBefore+"]").removeClass("ani");
+        }
+        if(ref === "3") {
+            slider.slick('slickPause');
+            slider2.slick('slickPause');
+            slider3.slick('slickPlay');
+            $("[data-section-name="+refBefore+"]").removeClass("ani");
+
+            $(window).on('resize',function(){
+                if(current){
+                    var currentScrl = $('.wrap').eq(current).offset().top;
+                    $(window).scrollTop(currentScrl);
+                }
+            });
+        }
+        if(ref === "4") {
+            slider.slick('slickPause');
+            slider2.slick('slickPause');
+            slider3.slick('slickPause');
+        }
+    },
+    afterRender:function() {
+        if(iscroll_idx==0){
+            setTimeout(function(){
+                $('.wrap').eq(0).addClass("ani");
+            }, 1000);
+            setTimeout(function(){
+                slider.slick('slickPlay');
+            }, 3000);
+        } else {
+            slider.slick('slickPause');
+        }
+
+        iscroll_idx++;
+
+        var pagination = "<ul class=\"top_top_pagination top_top_pagination_side\">";
+            var activeClass = "";
+            $(".wrap").each(function(i) {
+            activeClass = "";
+            if(i===0) {
+            activeClass = "active";
+            }
+            pagination += "<li><a class=\"" + activeClass + "\" href=\"#" + $(this).attr("data-section-name") + "\"><span class=\"hover-text\">" + $(this).attr("data-section-name").charAt(0).toUpperCase() + $(this).attr("data-section-name").slice(1) + "</span></a></li>";
+            });
+
+            pagination += "</ul>";
+
+        $(".wrap1").append(pagination);
+    }
+    });
+
+    }
+
+    scrollify();
+  $(".top_top_pagination a").on("click",$.scrollify.move);
+  $(".top_top_pagination_side a").on("click",$.scrollify.move);
+  $(".sidebar-list a").on("click",$.scrollify.move);
+  $(".scrolldown a").on("click",$.scrollify.move);
+  $("h1 a").on("click",$.scrollify.move);
+});
+</script>
+<style>
+</style>
+<body>
+<!-- nav -->
+<div class="nav">
+    <h1 class=""><a href="#1"><span class="tit_logo"></span></a></h1>
+    <ul class="nav_list top_top_pagination">
+        <li><a href="#1" class="active">KOMAF <span class="ico_x"></span> MachineSoft</a></li>
+        <li><a href="#2">MachineSoft Forum</a></li>
+        <li><a href="#3">O2O Fair</a></li>
+        <li><a href="#4">Video</a></li>
+    </ul>
+    <button type="button" class="btn_menu"><span></span></button>
+
+    <nav id="sidebar">
+        <div id="dismiss">
+            <i class="fas fa-arrow-left"></i>
+        </div>
+        <div class="sidebar-list">
+            <ul>
+                <li><a href="#1" class="active">KOMAF <span class="ico_x"></span> MachineSoft</a></li>
+                <li><a href="#2">MachineSoft Forum</a></li>
+                <li><a href="#3">O2O Fair</a></li>
+                <li><a href="#4">Video</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="overlay"></div>
+</div>
+<!-- nav -->
+<!-- wrap1 start -->
+<div class="scroll_wrap wrap wrap1 actived" data-section-name="1">
+  <p><a href="#"></a></p>
+    <!-- con -->
+    <div class="con">
+        <div class="con_wrap">
+            <!-- pc -->
+            <div class="con_inner con_inner01">
+               <div class="con_slide">
+                    <div class="con_slide_inner">
+                        <p class="con_tit1">
+                            <i class="ico_line top_down"></i>
+                            <span class="top_down">기계와 IT,</span>
+                            <span class="top_down02">Physical과 Digital,</span>
+                            <span class="top_down03">제조업과 서비스업의 연결</span>
+                        </p>
+                        <p class="con_tit2">
+                            <span class="con_tit2_img down_top03"></span>
+                            <span class="con_tit2_sub down_top02">2019. 10. 22 ~ 25 KINTEX</span>
+                        </p>
+                        <p class="btn_go_wrap down_top"><a href="#" class="btn_go"></a></p>
+                    </div>
+                </div>
+            </div>
+            <!-- pc -->
+
+            <!-- pad, m -->
+            <div class="con_inner_m con_inner01">
+               <div class="con_slide">
+                    <div class="con_slide_inner">
+                        <p class="con_tit1">
+                            <span class="top_down">기계와 IT,</span>
+                            <span class="top_down02">Physical과 Digital,</span>
+                            <span class="top_down03">제조업과 서비스업의 연결</span>
+                        </p>
+                        <p class="con_tit2">
+                            <span class="con_tit2_img down_top03"></span>
+                            <span class="con_tit2_sub down_top02">2019. 10. 22 ~ 25 KINTEX</span>
+                        </p>
+                        <p class="btn_go_wrap down_top"><a href="#" class="btn_go"></a></p>
+                    </div>
+                </div>
+            </div>
+            <!-- pad, m -->
+        </div>
+        <div class="con_wrap">
+            <!-- pc -->
+            <div class="con_inner con_inner02">
+               <div class="con_slide">
+                    <div class="con_slide_inner">
+                        <p class="con_tit1">
+                            <i class="ico_line top_down"></i>
+                            <span class="top_down">42년 전통의 “한국기계전(KOMAF)”과</span>
+                            <span class="top_down02">5G가 이끄는 디지털 기술이 총망라된</span>
+                            <span class="top_down03">“제조IT서비스전(MachineSoft)”의 동시개최</span>
+                        </p>
+                        <p class="con_tit2">
+                            <span class="con_tit2_img down_top03"></span>
+                            <span class="con_tit2_sub down_top02">2019. 10. 22 ~ 25 KINTEX</span>
+                        </p>
+                        <p class="btn_go_wrap down_top"><a href="#" class="btn_go"></a></p>
+                    </div>
+                </div>
+            </div>
+            <!-- pc -->
+
+            <!-- pad, m -->
+            <div class="con_inner_m con_inner02">
+               <div class="con_slide">
+                    <div class="con_slide_inner">
+                        <p class="con_tit1">
+                            <span class="top_down">“한국기계전(KOMAF)”과</span>
+                            <span class="top_down02">“제조IT서비스전(MachineSoft)” 이</span>
+                            <span class="top_down03">동시개최되는</span>
+                            <span class="top_down04">대한민국 최대의 산업융합 박람회</span>
+                        </p>
+                        <p class="con_tit2">
+                            <span class="con_tit2_img down_top03"></span>
+                            <span class="con_tit2_sub down_top02">2019. 10. 22 ~ 25 KINTEX</span>
+                        </p>
+                        <p class="btn_go_wrap down_top"><a href="#" class="btn_go"></a></p>
+                    </div>
+                </div>
+            </div>
+            <!-- pad, m -->
+        </div>
+    </div>
+    <!-- con -->
+    <!-- scroll btn -->
+    <div class="scroll_control_a">
+        <div class="scrolldown" data-menuanchor="2">
+            <a href="#2" title="사이트맵 가기">
+                <div class="arrow"><span class="arrow_img"></span><span class="sound_only"></span></div>
+                <div class="arrow"><span class="arrow_img"></span><span class="sound_only"></span></div>
+                <div class="arrow"><span class="arrow_img"></span><span class="sound_only"></span></div>
+            </a>
+            <p>SCROLL DOWN</p>
+        </div>
+    </div>
+    <!-- scroll btn -->
+</div>
+<!-- wrap1 end -->
+
+<!-- wrap2 start -->
+<div class="scroll_wrap wrap wrap2 right" data-section-name="2">
+    <!-- con -->
+    <div class="con">
+        <div class="con_wrap">
+            <!-- pc -->
+            <div class="con_inner con_inner01">
+                <div class="con_slide">
+                    <div class="con_slide_inner">
+                        <p class="con_tit1">
+                            <i class="ico_line top_down"></i>
+                            <span class="top_down">디지털 산업혁신을 선도하는</span>
+                            <span class="top_down02">글로벌 기업들과 함께</span>
+                        </p>
+                        <p class="con_tit2">
+                            <span class="con_tit2_img down_top03"></span>
+                            <span class="con_tit2_sub down_top02">2019. 10. 22 ~ 25 KINTEX</span>
+                        </p>
+                        <p class="btn_go_wrap down_top"><a href="#" class="btn_go"></a></p>
+                    </div>
+                </div>
+            </div>
+            <!-- pc -->
+
+            <!-- pad, m -->
+            <div class="con_inner_m con_inner01">
+                <div class="con_slide">
+                    <div class="con_slide_inner">
+                        <p class="con_tit1">
+                            <span class="top_down">디지털 산업혁신을 선도하는</span>
+                            <span class="top_down02">글로벌 기업들과 함께</span>
+                        </p>
+                        <p class="con_tit2">
+                            <span class="con_tit2_img down_top03"></span>
+                            <span class="con_tit2_sub down_top02">2019. 10. 22 ~ 25 KINTEX</span>
+                        </p>
+                        <p class="btn_go_wrap down_top"><a href="#" class="btn_go"></a></p>
+                    </div>
+                </div>
+            </div>
+            <!-- pad, m -->
+        </div>
+        <div class="con_wrap">
+            <!-- pc -->
+            <div class="con_inner con_inner01">
+                <div class="con_slide">
+                    <div class="con_slide_inner">
+                        <p class="con_tit1">
+                            <i class="ico_line top_down"></i>
+                            <span class="top_down">4차 산업혁명의 현재와 미래를 통찰하는</span>
+                            <span class="top_down02">초 프리미엄 기술 컨퍼런스</span>
+                        </p>
+                        <p class="con_tit2">
+                            <span class="con_tit2_img down_top03"></span>
+                            <span class="con_tit2_sub down_top02">2019. 10. 22 ~ 25 KINTEX</span>
+                        </p>
+                        <p class="btn_go_wrap down_top"><a href="#" class="btn_go"></a></p>
+                    </div>
+                </div>
+            </div>
+            <!-- pc -->
+
+            <!-- pad, m -->
+            <div class="con_inner_m con_inner01">
+                <div class="con_slide">
+                    <div class="con_slide_inner">
+                        <p class="con_tit1">
+                            <span class="top_down">4차 산업혁명의 현재와 미래를 통찰하는</span>
+                            <span class="top_down02">초 프리미엄 기술 컨퍼런스</span>
+                        </p>
+                        <p class="con_tit2">
+                            <span class="con_tit2_img down_top03"></span>
+                            <span class="con_tit2_sub down_top02">2019. 10. 22 ~ 25 KINTEX</span>
+                        </p>
+                        <p class="btn_go_wrap down_top"><a href="#" class="btn_go"></a></p>
+                    </div>
+                </div>
+            </div>
+            <!-- pad, m -->
+        </div>
+    </div>
+    <!-- con -->
+    <!-- scroll btn -->
+    <div class="scroll_control_a">
+        <div class="scrolldown" data-menuanchor="3">
+            <a href="#3" title="사이트맵 가기">
+                <div class="arrow"><span class="arrow_img"></span><span class="sound_only"></span></div>
+                <div class="arrow"><span class="arrow_img"></span><span class="sound_only"></span></div>
+                <div class="arrow"><span class="arrow_img"></span><span class="sound_only"></span></div>
+            </a>
+            <p>SCROLL DOWN</p>
+        </div>
+    </div>
+    <!-- scroll btn -->
+</div>
+<!-- wrap2 start -->
+
+<!-- wrap3 start -->
+<div class="scroll_wrap wrap wrap3" data-section-name="3">
+    <!-- con -->
+    <div class="con">
+        <div class="con_wrap">
+            <!-- pc -->
+            <div class="con_inner con_inner02">
+               <div class="con_slide">
+                    <div class="con_slide_inner">
+                        <p class="con_tit2">
+                            <span class="con_tit2_normal top_down">현장 비즈니스 매칭을 위한 차세대 온라인 전시 플랫폼</span>
+                            <span class="con_tit2_big top_down02">“미리 가보는 전시회(O2O Fair)”</span>
+                        </p>
+                        <p class="con_tit1">
+                            <i class="ico_line down_top03"></i>
+                            <span class="down_top03">참가업체 등록제품의 사전홍보,</span>
+                            <span class="down_top02">수요바이어 발굴, 현장매칭을 비롯하여</span>
+                        </p>
+                        <p class="btn_go_wrap down_top"><a href="#" class="btn_go"></a></p>
+                    </div>
+                </div>
+            </div>
+            <!-- pc -->
+
+            <!-- pad, m -->
+            <div class="con_inner_m con_inner02">
+                <div class="con_slide">
+                    <div class="con_slide_inner">
+                    <p class="con_tit1">
+                        <span class="top_down">현장 비즈니스 매칭을 위한</span>
+                        <span class="top_down02">차세대 온라인 전시 플랫폼</span>
+                        <span class="top_down03">온-오프라인 통합 바이어 연결 시스템</span>
+                    </p>
+                        <p class="con_tit2">
+                            <span class="con_tit2_big down_top02">미리 가보는 전시회<br>(O2O Fair)</span>
+                        </p>
+                        <p class="btn_go_wrap down_top"><a href="#" class="btn_go"></a></p>
+                    </div>
+                </div>
+            </div>
+            <!-- pad, m -->
+        </div>
+        <div class="con_wrap m_">
+            <!-- pc -->
+            <div class="con_inner con_inner02">
+               <div class="con_slide">
+                    <div class="con_slide_inner">
+                        <p class="con_tit2">
+                            <span class="con_tit2_normal top_down">현장 비즈니스 매칭을 위한 차세대 온라인 전시 플랫폼</span>
+                            <span class="con_tit2_big top_down02">“미리 가보는 전시회(O2O Fair)”</span>
+                        </p>
+                        <p class="con_tit1">
+                            <i class="ico_line down_top03"></i>
+                            <span class="down_top03">구매상담 및 사후관리 등을 집중 지원하는</span>
+                            <span class="down_top02">온-오프라인 통합 바이어 연결 시스템</span>
+                        </p>
+                        <p class="btn_go_wrap down_top"><a href="#" class="btn_go"></a></p>
+                    </div>
+                </div>
+            </div>
+            <!-- pc -->
+
+            <!-- pad, m -->
+            <div class="con_inner_m con_inner02">
+                    <div class="con_slide">
+                         <div class="con_slide_inner">
+                            <p class="con_tit1">
+                                <span class="top_down">현장 비즈니스 매칭을 위한</span>
+                                <span class="top_down02">차세대 온라인 전시 플랫폼</span>
+                                <span class="top_down03">온-오프라인 통합 바이어 연결 시스템</span>
+                            </p>
+                             <p class="con_tit2">
+                                 <span class="con_tit2_big down_top02">미리 가보는 전시회<br>(O2O Fair)</span>
+                             </p>
+                             <p class="btn_go_wrap down_top"><a href="#" class="btn_go"></a></p>
+                         </div>
+                     </div>
+                 </div>
+                 <!-- pad, m -->
+        </div>
+    </div>
+    <!-- con -->
+    <!-- scroll btn -->
+    <div class="scroll_control_a">
+        <div class="scrolldown" data-menuanchor="4">
+            <a href="#4" title="사이트맵 가기">
+                <div class="arrow"><span class="arrow_img"></span><span class="sound_only"></span></div>
+                <div class="arrow"><span class="arrow_img"></span><span class="sound_only"></span></div>
+                <div class="arrow"><span class="arrow_img"></span><span class="sound_only"></span></div>
+            </a>
+            <p>SCROLL DOWN</p>
+        </div>
+    </div>
+    <!-- scroll btn -->
+</div>
+<!-- wrap3 end -->
+
+<!-- wrap4 start -->
+<div class="scroll_wrap wrap wrap4" data-section-name="4">
+
+    <div>
+        <div id=""><div id="player"></div></div>
+    </div>
+    <div class="yotube_cover">
+        <div class="btn_wrap">
+            <button id="btnPlay" class="btn_play"></button>
+            <a href="https://www.youtube.com/watch?v=mcPZeMSiKTQ&feature=share" target="_blank" class="btn_youtube">Youtube로 영상보기</a>
+        </div>
+    </div>
+
+    <!-- con -->
+    <!-- scroll btn -->
+    <div class="scroll_control_a">
+        <div class="scrolldown" data-menuanchor="5">
+            <a href="#5" title="사이트맵 가기">
+                <div class="arrow"><span class="arrow_img"></span><span class="sound_only"></span></div>
+                <div class="arrow"><span class="arrow_img"></span><span class="sound_only"></span></div>
+                <div class="arrow"><span class="arrow_img"></span><span class="sound_only"></span></div>
+            </a>
+            <p>SCROLL DOWN</p>
+        </div>
+    </div>
+    <!-- scroll btn -->
+</div>
+<!-- wrap4 end -->
+
+<!-- wrap5 start -->
+<div class="scroll_wrap wrap wrap5" data-section-name="5">
+    <!-- con -->
+    <div class="con">
+        <div class="con_wrap">
+            <!-- pc -->
+            <div class="con_inner con_inner01">
+                <div class="con_slide">
+                    <div class="con_slide_inner">
+                        <p class="con_tit2 top_down">
+                            <span class="con_tit2_big godo">“ 초혁신 기술의 시작 ”</span>
+                        </p>
+                        <div class="wrap5_list">
+                            <ul>
+                                <li class="down_top"><a href="#"></a></li><!--
+                             --><li class="down_top02"><a href="#"></a></li><!--
+                             --><li class="down_top03"><a href="#"></a></li><!--
+                             --><li class="down_top04"><a href="#"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- pc -->
+
+            <!-- pad, m -->
+            <div class="con_inner_m con_inner01">
+                <div class="con_slide">
+                    <div class="con_slide_inner">
+                        <p class="con_tit2 top_down">
+                            <span class="con_tit2_big godo">“ 초혁신 기술의 시작 ”</span>
+                        </p>
+                        <div class="wrap5_list down_top">
+                            <div class="wrap5_list_center">
+                                <ul>
+                                    <li><a href="#"></a></li><!--
+                                 --><li><a href="#"></a></li><!--
+                                 --><li><a href="#"></a></li><!--
+                                 --><li><a href="#"></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- pad, m -->
+        </div>
+    </div>
+    <!-- con -->
+    <!-- scroll btn -->
+    <div class="scroll_control_a">
+        <div class="scrolldown" data-menuanchor="6">
+            <a href="#6" title="사이트맵 가기">
+                <div class="arrow"><span class="arrow_img"></span><span class="sound_only"></span></div>
+                <div class="arrow"><span class="arrow_img"></span><span class="sound_only"></span></div>
+                <div class="arrow"><span class="arrow_img"></span><span class="sound_only"></span></div>
+            </a>
+            <p>SCROLL DOWN</p>
+        </div>
+    </div>
+    <!-- scroll btn -->
+</div>
+<!-- wrap5 end -->
+
+<!-- footer_wrap start -->
+<div class="scroll_wrap footer_wrap" id="footer" data-section-name="6">
+    <div class="footer_top">
+        <div class="footer_top_wrap">
+            <p class="footer_top_tit">CONTACT INFO</p>
+            <ul class="footer_top_list">
+                <li class="phone"><a href="tel:02-369-7824">02-369-7824</a>,<a href="tel:02-369-7903">7903</a>,<a href="tel:02-369-7813">7813</a></li><!--
+             --><li class="mail"><a href="mailto:exhibit@koami.or.kr">exhibit@koami.or.kr</a></li><!--
+             --><li class="fax">02-369-7899,7898</li><!--
+             --><li class="location">서울시 영등포구 은행로 37 기계회관 본관 9층(07238)</li>
+            </ul>
+        </div>
+        <p class="footer_logo_wrap">
+            <span class="footer_logo"></span>
+            <span class="footer_logo"></span>
+        </p>
+    </div>
+    <div class="footer_bottom">Copyright © 2019 KOAMI all rights reserved.</div>
+</div>
+<!-- footer_wrap end -->
+<script>
+    //  패드 사이드 메뉴
+    $(document).ready(function () {
+    $("#sidebar").mCustomScrollbar({
+        theme: "minimal"
+    });
+
+    $('#dismiss, .overlay').on('click', function () {
+        $('#sidebar').removeClass('active');
+        $('.overlay').removeClass('active');
+    });
+
+    $('.btn_menu').on('click', function () {
+        $('#sidebar').addClass('active');
+        $('.overlay').addClass('active');
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+    });
+
+});
+</script>
+</body>
+</html>

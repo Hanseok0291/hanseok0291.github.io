@@ -1,0 +1,91 @@
+/*
+main-color
+color: #fff;
+
+sub-color 
+color: #f2f2ff;
+opacity: .35;
+
+text-color
+color: #63636e;
+text-sub-tit-color
+color: #aaaab3;
+*/
+html, body {
+    font-family: 'Nanum Gothic', sans-serif;
+}
+.container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 180px 0;
+    overflow: hidden;
+    &::before, &::after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+    &.odd {
+        background-color: transparent;
+    }
+    &.even {
+        background-color: #fafafa;
+    }
+    &.theme-black {
+        background-color: #000;
+        color: #fff;
+        &.odd {
+            background-color: transparent;
+        }
+        &.even {
+            background-color: #17171d;
+        }
+    }
+}
+
+.float-l {
+    float: left;
+}
+.float-r {
+    float: right;
+}
+
+.font-light {
+    font-weight: 400;
+}
+.font-bold {
+    font-weight: 700;
+}
+
+.text-xsmall {
+    font-size: 21px;
+}
+.text-small {
+    font-size: 28px;
+}
+.text-big {
+    font-size: 48px;
+}
+
+.text-main-color {
+    color: #fff;
+}
+.text-sub-color {
+    color: #63636e;
+}
+.text-sub2-color {
+    color: #aaaab3;
+}
+
+.ta-l {
+    text-align: left;
+}
+.ta-r {
+    text-align: right;
+}
+.ta-c {
+    text-align: center;
+}
+
+.line-height-md {
+    line-height: 1.3;
+}
