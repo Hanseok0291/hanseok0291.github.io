@@ -323,6 +323,9 @@ body {
   text-align: left;
   vertical-align: middle;
 }
+.container .result-wrap .row .col.text {
+  width: auto;
+}
 
 .container .result-wrap .row .col .btn-more {
   display: block;
@@ -560,13 +563,13 @@ body {
   .container .inner .intro-img img {
     max-width: 100%;
   }
+  .container .inner .intro-img {
+    max-width: 300px;
+    margin: 50px auto -90px;
+  }
   .nav-wrap ul {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
+    justify-content: center;
   }
   .container .intro-info .row {
     padding: 0 20px;
